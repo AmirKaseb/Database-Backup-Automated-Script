@@ -65,9 +65,23 @@ jobs:
       - name: Make backup script executable
         run: chmod +x backup.sh
 
-      # Step 6: Run the BATS tests
+      # Step 6: Debugging - List the contents of the backups directory before running tests
+      - name: List backups directory (before tests)
+        run: |
+          echo "Contents of backups directory before running tests:"
+          ls -l backups/
+
+      # Step 7: Run the BATS tests
       - name: Run BATS tests
         run: bats test.bats
+
+      # Step 8: Debugging - List the contents of the backups directory after running tests
+      - name: List backups directory (after tests)
+        run: |
+          echo "Contents of backups directory after running tests:"
+          ls -l backups/
+          echo "Contents of backup file:"
+          cat backups/mydatabase_backup_*.sql
 
   build:
     name: Build and Push Docker Image
