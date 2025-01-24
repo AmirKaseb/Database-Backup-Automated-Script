@@ -61,29 +61,26 @@ jobs:
       - name: Seed database
         run: mysql -h 127.0.0.1 -u root -ppassword < seed.sql
 
-      # Step 5: Run the backup script locally
-      - name: Run backup script locally
-        run: |
-          chmod +x backup.sh
-          ./backup.sh || exit 1
-          echo "Backup script executed successfully."
-
-      # Step 6: Run the BATS tests
-      - name: Run BATS tests
-        run: bats test.bats
-
-      # Step 7: Test the Docker image
-      - name: Test Docker image
+      # Step 5: Build the Docker image
+      - name: Build Docker image
         run: |
           docker build -t dbbackup:latest .
+
+      # Step 6: Run the backup script inside the Docker container
+      - name: Run backup script in Docker container
+        run: |
           docker run --network="host" \
             -v $(pwd)/backups:/usr/src/app/backups \
             -e DB_HOST=127.0.0.1 \
             -e DB_USER=root \
-            -e DB_PASSWORD=admin \
+            -e DB_PASSWORD=password \
             -e DB_NAME=mydatabase \
             dbbackup:latest /usr/src/app/backup.sh
-          echo "Docker image tested successfully."
+          echo "Backup script executed successfully inside the container."
+
+      # Step 7: Run the BATS tests
+      - name: Run BATS tests
+        run: bats test.bats
 
   build:
     name: Build and Push Docker Image
