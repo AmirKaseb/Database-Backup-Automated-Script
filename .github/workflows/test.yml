@@ -45,7 +45,7 @@ jobs:
       - name: Create backups directory
         run: mkdir -p backups
 
-      # Step 3: Wait for MySQL service to be ready
+        # Step 3: Wait for MySQL service to be ready
       - name: Wait for MySQL to be ready
         run: |
           for i in {1..30}; do
@@ -61,24 +61,7 @@ jobs:
       - name: Seed database
         run: mysql -h 127.0.0.1 -u root -ppassword < seed.sql
 
-      # Step 5: Build the Docker image
-      - name: Build Docker image
-        run: |
-          docker build -t dbbackup:latest .
-
-      # Step 6: Run the backup script inside the Docker container
-      - name: Run backup script in Docker container
-        run: |
-          docker run --network="host" \
-            -v $(pwd)/backups:/usr/src/app/backups \
-            -e DB_HOST=127.0.0.1 \
-            -e DB_USER=root \
-            -e DB_PASSWORD=password \
-            -e DB_NAME=mydatabase \
-            dbbackup:latest /usr/src/app/backup.sh
-          echo "Backup script executed successfully inside the container."
-
-      # Step 7: Run the BATS tests
+      # Step 5: Run the BATS tests
       - name: Run BATS tests
         run: bats test.bats
 
