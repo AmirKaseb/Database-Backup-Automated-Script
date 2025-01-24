@@ -45,7 +45,7 @@ jobs:
       - name: Create backups directory
         run: mkdir -p backups
 
-      # Step 3: Wait for MySQL service to be ready
+        # Step 3: Wait for MySQL service to be ready
       - name: Wait for MySQL to be ready
         run: |
           for i in {1..30}; do
@@ -61,29 +61,9 @@ jobs:
       - name: Seed database
         run: mysql -h 127.0.0.1 -u root -ppassword < seed.sql
 
-      # Step 5: Make the backup script executable
-      - name: Make backup script executable
-        run: chmod +x backup.sh
-
-      # Step 6: Debugging - List the contents of the backups directory before running tests
-      - name: List backups directory (before tests)
-        run: |
-          echo "Contents of backups directory before running tests:"
-          ls -l backups/
-          echo "Contents of backup file:"
-          cat backups/mydatabase_backup_*.sql
-
-      # Step 7: Run the BATS tests
+      # Step 5: Run the BATS tests
       - name: Run BATS tests
         run: bats test.bats
-
-      # Step 8: Debugging - List the contents of the backups directory after running tests
-      - name: List backups directory (after tests)
-        run: |
-          echo "Contents of backups directory after running tests:"
-          ls -l backups/
-          echo "Contents of backup file:"
-          cat backups/mydatabase_backup_*.sql
 
   build:
     name: Build and Push Docker Image
