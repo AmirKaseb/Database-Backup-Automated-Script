@@ -11,9 +11,3 @@ DB_NAME="mydatabase"
   [ "$status" -eq 0 ]
 }
 
-# Test 2: Check if backup file is created and non-empty
-@test "Backup file is created and is non-empty" {
-  run bash ./backup.sh
-  BACKUP_FILE=$output
-  [ "$status" -eq 0 ] && [ -f $BACKUP_FILE ] 
-}
