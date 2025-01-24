@@ -1,5 +1,8 @@
 -- seed.sql
+CREATE DATABASE IF NOT EXISTS mydatabase;
+
 USE mydatabase;
+
 CREATE TABLE IF NOT EXISTS employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
