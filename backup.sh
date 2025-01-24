@@ -15,7 +15,7 @@ if [ ! -d "$BACKUP_DIR" ]; then
 fi
 
 # Perform the backup and suppress warning messages
-mysqldump -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_DIR/${DB_NAME}_backup_$TIMESTAMP.sql" 2>/dev/null
+mysqldump -h "$DB_HOST" -u "$DB_USER" -p"$MYSQL_PWD" "$DB_NAME" > "$BACKUP_DIR/${DB_NAME}_backup_$TIMESTAMP.sql" 2>/dev/null
 
 # Check if the backup was successful
 if [ $? -eq 0 ]; then
