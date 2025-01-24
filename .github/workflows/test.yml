@@ -70,6 +70,8 @@ jobs:
         run: |
           echo "Contents of backups directory before running tests:"
           ls -l backups/
+          echo "Contents of backup file:"
+          cat backups/mydatabase_backup_*.sql
 
       # Step 7: Run the BATS tests
       - name: Run BATS tests
