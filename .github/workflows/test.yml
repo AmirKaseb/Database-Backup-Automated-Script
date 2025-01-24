@@ -45,7 +45,7 @@ jobs:
       - name: Create backups directory
         run: mkdir -p backups
 
-        # Step 3: Wait for MySQL service to be ready
+      # Step 3: Wait for MySQL service to be ready
       - name: Wait for MySQL to be ready
         run: |
           for i in {1..30}; do
@@ -61,7 +61,11 @@ jobs:
       - name: Seed database
         run: mysql -h 127.0.0.1 -u root -ppassword < seed.sql
 
-      # Step 5: Run the BATS tests
+      # Step 5: Make the backup script executable
+      - name: Make backup script executable
+        run: chmod +x backup.sh
+
+      # Step 6: Run the BATS tests
       - name: Run BATS tests
         run: bats test.bats
 
